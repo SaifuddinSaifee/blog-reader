@@ -1,0 +1,4 @@
+langchain
+newspaper3k
+streamlit
+tiktoken

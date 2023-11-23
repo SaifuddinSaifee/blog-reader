@@ -1,0 +1,18 @@
+Markdown Summary
+Greeting! I am the author of this blog. In this blog, we'll be looking at the challenges we faced with Search Engine Optimization (SEO) while launching our React.js application, CoderKit. Trust me, it was quite a journey!
+
+So, after launching our app, we quickly realized that it wasn't showing up on Google search results. Bummer! We explored traditional solutions like Next.js or static site generators, but they weren't viable options for us. We needed to find another way to tackle this SEO conundrum.
+
+After diving into the world of SEO implementation and website essentials, we stumbled upon a game-changer: sitemap.xml. This nifty file holds the key to visibility on search engines. We created a script to automatically generate this file, making sure it included all our known routes. Bye-bye, dynamic backend-driven URLs!
+
+We thought we were making progress when we configured the Search Console to index these new pages. But, alas, we hit a roadblock. The indexing failed. Turns out, the issue was with redirection. React applications are set to land on index.html by default, which messes with search engine indexing. We needed a workaround.
+
+Ingenious solution alert! During the pre-build phase, we started generating HTML pages for each known route. These pages looked like index.html but had unique meta tags and content pulled from the route config. This way, search engines could index every page individually. Problem solved!
+
+Now that we had our pages ready for indexing, we needed to make sure they seamlessly redirected to the right place. Thankfully, platforms like Netlify swooped in to save the day. They checked for file name matches with the requested URLs and returned the pages if found. If not, they redirected to index.html. Smooth as butter!
+
+With all these configurations in place, we eagerly awaited the results. And guess what? Success! After a day, we received a notification that all our pages were indexed. However, our ranking was still modest due to the newness of our application. But don't worry, we're continuously working on improving it.
+
+And there you have it! Our SEO journey with CoderKit showcases how problem-solving in the tech world is all about being flexible and constantly adapting. We're open to feedback and alternative approaches, as we know the world of SEO is ever-evolving. If you want to see these strategies in action, be sure to check out CoderKit.
+
+Be sure to read my full blog on our website to learn more about our SEO journey with CoderKit. Happy reading!
