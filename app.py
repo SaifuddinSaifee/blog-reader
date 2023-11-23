@@ -27,24 +27,52 @@ def main():
 
     # API Key and Model Name
     OPENAI_API_KEY = st.sidebar.text_input("OpenAI API Key", type="password")
-    model_name = "gpt-3.5-turbo"
+    # model_name = "gpt-4-1106-preview"
+    # model_name = "gpt-3.5-turbo-1106"
+    model_name = "gpt-4"
+
+    paste_blog = st.toggle('Paste the blog content instead')
+
+    if paste_blog:
+        st.subheader("Paste the blog content here")
+        blog_data = st.text_area("")
+    else:
+        st.subheader("Paste the blog URL here")
+        blog_url = st.text_input("")
 
     # Input for blog URL
-    blog_url = st.text_input("Enter the URL of the blog post:")
+
+    
 
     if st.button("Summarize"):
-        if blog_url and OPENAI_API_KEY:
-            try:
-                article_text = extract_article_text(blog_url)
-                summary = summarize_text(article_text, OPENAI_API_KEY, model_name)
-                st.subheader("Markdown Summary")
-                st.markdown(summary)
-            except Exception as e:
-                st.error(f"An error occurred: {e}")
+        if paste_blog:
+            if blog_data and OPENAI_API_KEY:
+                try:
+                    # st.markdown(blog_data)
+                    summary = summarize_text(blog_data, OPENAI_API_KEY, model_name)
+                    st.subheader("Summary")
+                    st.markdown(summary)
+                except Exception as e:
+                    st.error(f"An error occurred: {e}")
+            else:
+                st.error(
+                    "Please input both the URL of the blog post and the OpenAI API Key."
+                )
+
         else:
-            st.error(
-                "Please input both the URL of the blog post and the OpenAI API Key."
-            )
+            if blog_url and OPENAI_API_KEY:
+                try:
+                    article_text = extract_article_text(blog_url)
+                    st.markdown(article_text)
+                    # summary = summarize_text(article_text, OPENAI_API_KEY, model_name)
+                    st.subheader("Summary")
+                    # st.markdown(summary)
+                except Exception as e:
+                    st.error(f"An error occurred: {e}")
+            else:
+                st.error(
+                    "Please input both the URL of the blog post and the OpenAI API Key."
+                )
 
 
 def extract_article_text(url):
@@ -54,10 +82,10 @@ def extract_article_text(url):
     return article.text
 
 
-def summarize_text(news_article, OPENAI_API_KEY, model_name):
+def summarize_text(blog_content, OPENAI_API_KEY, model_name):
     # Splitting the text
     text_splitter = CharacterTextSplitter.from_tiktoken_encoder(model_name=model_name)
-    texts = text_splitter.split_text(news_article)
+    texts = text_splitter.split_text(blog_content)
     docs = [Document(page_content=t) for t in texts]
 
     # Setting up the language model
@@ -84,10 +112,10 @@ def summarize_text(news_article, OPENAI_API_KEY, model_name):
     prompt = PromptTemplate(template=prompt_template, input_variables=["text"])
 
     # Counting tokens
-    num_tokens = num_tokens_from_string(news_article, model_name)
+    num_tokens = num_tokens_from_string(blog_content, model_name)
 
     # Load summarization chain
-    gpt_35_turbo_max_tokens = 4097
+    gpt_35_turbo_max_tokens = 8097
     verbose = True
     chain = load_chain(num_tokens, gpt_35_turbo_max_tokens, llm, prompt, verbose)
 
