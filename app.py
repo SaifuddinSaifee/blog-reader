@@ -63,10 +63,10 @@ def main():
             if blog_url and OPENAI_API_KEY:
                 try:
                     article_text = extract_article_text(blog_url)
-                    st.markdown(article_text)
-                    # summary = summarize_text(article_text, OPENAI_API_KEY, model_name)
+                    # st.markdown(article_text)
+                    summary = summarize_text(article_text, OPENAI_API_KEY, model_name)
                     st.subheader("Summary")
-                    # st.markdown(summary)
+                    st.markdown(summary)
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
             else:
