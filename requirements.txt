@@ -1,4 +1,5 @@
 langchain
+openai
 newspaper3k
 streamlit
 tiktoken
